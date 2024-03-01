@@ -3,9 +3,9 @@ import MetaTrader5 as mt5
 import re,time,pdb,time
 
 def main():
-   login=22484068
-   password="jg1eH/h5vRd+"
-   server="Forex.com-Demo 535"
+   login=
+   password=
+   server=
    terminalconnect(login,password,server)
    createsocket()  
     
