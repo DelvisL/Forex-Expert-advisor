@@ -265,7 +265,7 @@ void conn_to_sock()   //connects to server socket to send informationfrom mt5 te
 int clientsock()
   {
 int mq5sock;
-const string address="10.246.60.70";
+const string address="";
 uint port=2023;
 uint  timeo=20000;
 uchar  mq5buffer[]={};
