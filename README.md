@@ -34,7 +34,7 @@
 <br>
 </div>
 
-<h4>
+<h4 style='font-size=100px;'>
   Installation
 </h4>
 
@@ -45,7 +45,7 @@
 <h4>
   Important information:
 <li>IP address:found through ipconfig on windows cmd</li>
-<li>login and passwords for metatrader account</li>
+<li>login and passwords for Metatrader account</li>
 </h4>
 
 
