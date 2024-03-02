@@ -4,7 +4,7 @@
 </h1>
 
 <h2>
-  Purpose
+  Purpose:
 </h2>
 
 <p1>
@@ -13,7 +13,7 @@
 </p1> 
 
 <h3>
-  Programming applications
+  Programming applications:
 </h3>
 
 <p>
@@ -21,7 +21,7 @@
 </p>
 
 <h4 font:>
-  Avaliable
+  Avaliability:
 </h4>
 
 <p>
@@ -29,6 +29,9 @@
 </p>
 <image height=100% width=50% src="https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png">
 
+<h4>
+  
+</h4>
 
 
 
