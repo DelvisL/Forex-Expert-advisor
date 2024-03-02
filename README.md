@@ -11,7 +11,7 @@
 
 <h4>Avaliable</h4>
 <p>This product is specific to the MetaTrader5 platform, however it can be applied to various brokers which offer this platform for trade analysis.</p>
-<image src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FFile%3APython-logo-notext.svg&psig=AOvVaw2GES6Bgt_EL0zaLZF9qrLE&ust=1709432286796000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJC_4dTB1IQDFQAAAAAdAAAAABAE"></image>
+<image src="[https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FFile%3APython-logo-notext.svg&psig=AOvVaw2GES6Bgt_EL0zaLZF9qrLE&ust=1709432286796000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJC_4dTB1IQDFQAAAAAdAAAAABAE](https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png)https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png"></image>
 
 
 
