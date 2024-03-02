@@ -30,8 +30,18 @@
 <image height=100% width=50% src="https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png">
 
 <h4>
-  
+  Installation
 </h4>
 
+<p>
+  In order to use this AI it important to download the combinedalgoAI mq5 file and sl_tp_ea python file into yor local machine. The combinedalgoAI file must be added into the experts folder in your Metatrader5  directory. The python script can be run on the command line or python IDE. 
+</p>
+
+<h4>
+  Important information:
+<li>IP address:found through ipconfig on windows cmd</li>
+<li>login and passwords for metatrader account</li>
+<li></li>
+</h4>
 
 
