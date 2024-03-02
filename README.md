@@ -26,7 +26,7 @@
 <p>
   This product is specific to the MetaTrader5 platform, however it can be applied to various brokers which offer this platform for trade analysis.
 </p>
-<image height=30px width=20px src="https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png">
+<image height=100px width=100px src="https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png">
 
 
 
