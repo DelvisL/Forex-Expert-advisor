@@ -1,7 +1,9 @@
 
 <h1>Welcome to the TradingEA project</h1>
 
-Purpose:autonomous trading helper which allows participant in the financial markets to manage their money more reliably and efficiently. 
+<h2>Purpose</h2>
+
+<p1>autonomous trading helper which allows participant in the financial markets to manage their money more reliably and efficiently.</p1> 
 
 ##Programming applications: This project utiizes python for developing server side operation and mql5 for client side operations. Mql5 is the official langugae for the Metatrader5 platform for creating various trading tools.
 
