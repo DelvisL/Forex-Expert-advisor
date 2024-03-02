@@ -22,8 +22,8 @@
 
 <div>
 <br>
-<h4 font:>
-  Avaliability:
+<h4 >
+  <strong>Avaliability:</strong>
 </h4>
 
 <p>
