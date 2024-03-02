@@ -20,6 +20,8 @@
   This project utiizes python for developing server side operation and mql5 for client side operations. Mql5 is the official langugae for the Metatrader5 platform for creating various trading tools.
 </p>
 
+<div>
+  
 <h4 font:>
   Avaliability:
 </h4>
@@ -29,6 +31,9 @@
 </p>
 <image height=100% width=50% src="https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png">
 <image height=100% width=50% src='https://c.mql5.com/i/docs/background_docs_2x.png'>
+</image>
+
+</div>
 
 <h4>
   Installation
