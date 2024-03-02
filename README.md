@@ -44,7 +44,7 @@
 
 <h4>
   Important information:
-<li>IP address: Found through <i>ipconfig</i> on windows or <i>ifconfig</i> on linux and MAC </li>
+<li>IP address: Found through the commands <i>ipconfig</i> on windows or <i>ifconfig</i> on linux and MAC  command line interface </li>
 <li>login and passwords for Metatrader account</li>
 </h4>
 
