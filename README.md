@@ -28,7 +28,7 @@
   This product is specific to the MetaTrader5 platform, however it can be applied to various brokers which offer this platform for trade analysis.
 </p>
 <image height=100% width=50% src="https://1000logos.net/wp-content/uploads/2020/08/Python-Logo.png">
-<image src='https://c.mql5.com/i/docs/background_docs_2x.png'>
+<image height=100% width=50% src='https://c.mql5.com/i/docs/background_docs_2x.png'>
 
 <h4>
   Installation
