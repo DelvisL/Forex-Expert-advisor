@@ -41,7 +41,6 @@
   Important information:
 <li>IP address:found through ipconfig on windows cmd</li>
 <li>login and passwords for metatrader account</li>
-<li></li>
 </h4>
 
 
