@@ -1,4 +1,5 @@
-Welcome to the TradingEA project
+
+# Welcome to the TradingEA project
 
 Purpose:autonomous trading helper which allows participant in the financial markets to manage their money more reliably and efficiently. 
 
