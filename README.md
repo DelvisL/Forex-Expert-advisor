@@ -11,7 +11,7 @@
 
 <h4>Avaliable</h4>
 <p>This product is specific to the MetaTrader5 platform, however it can be applied to various brokers which offer this platform for trade analysis.</p>
-<image src='https://github.com/DelvisL/TradingEA/assets/80012247/ca4bbf22-45d2-4139-8f6f-f036d26f08e6'></image>
+<image src='https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FFile%3APython-logo-notext.svg&psig=AOvVaw2GES6Bgt_EL0zaLZF9qrLE&ust=1709432286796000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJC_4dTB1IQDFQAAAAAdAAAAABAE)https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FFile%3APython-logo-notext.svg&psig=AOvVaw2GES6Bgt_EL0zaLZF9qrLE&ust=1709432286796000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJC_4dTB1IQDFQAAAAAdAAAAABAE'>
 
 ##Usability:
 
