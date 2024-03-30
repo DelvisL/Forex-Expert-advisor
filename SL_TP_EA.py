@@ -1,43 +1,59 @@
+
 import socket
 import MetaTrader5 as mt5
-import re,time,pdb,time
+import re,time,pdb,time,threading
 
 def main():
-   login=
-   password=
-   server=
+   login=22334134
+   password="5(jt0MqVowo!"
+   server="Forex.com-Demo 535"
    terminalconnect(login,password,server)
-   createsocket()  
+   createsocket()
+
     
 #creates the socket for communication
 def createsocket():
-   global sock
-   global msd
-   sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-   sock.bind(("",2023))
-   sock.listen()
-   print("socket is listening")
-   conn, addr=sock.accept()
-   print("socket accepts the connection")
    
-   while True:
-       conn.send("finally working".encode())
-       break
-   msd=str(conn.recv(1024).decode('utf-8'))
-   print(msd)
+      global sock
+      global msd
+      sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+      sock.bind(("",2023))
+      sock.listen()
+      print("socket is listening")
+      while True:
+         t1=threading.Thread(target=createThread,args=(sock,))
+         t1.start()
+         print("listening thread: ",t1.native_id,'\n')
+         time.sleep(10)
+         
+def createThread(sock):
+   
+      conn, addr=sock.accept()
+      print("socket accepts the connection")
+         
+      conn.send("finally working".encode())
+         
+      msd=str(conn.recv(1024).decode('utf-8'))
+      print(msd)
+      
 
+         
+      #filtering the recieved message to get ATR and pair information
+      _=re.split(r"\x00",msd)[0:-1]
+      print(_)
+      ATR=round(float(_[0]),4)
+      pair=_[1]
+      position=_[-1]
+      t2=threading.Thread(target=trade_manager,args=(pair,ATR,position,))
+      t2.start()
+      print("managing thread: ",t2.native_id,'\n')
+      time.sleep(10)
+      
+      
+      
+      
    
-   #filtering the recieved message to get ATR and pair information
-   _=re.split(r"\x00",msd)[0:-1]
-   print(_)
-   ATR=round(float(_[0]),4)
-   pair=_[1]
-   position=_[-1]
-   #closesocket()
-   
-   trade_manager(pair,ATR,position)
-   return conn
-    
+
 #connects to the metatrader 5 terminal
 def terminalconnect(login,password,server):
    login=login
@@ -66,19 +82,7 @@ def trade_manager(pair,ATR,position):
    price_list=[dparsed]
    ticket=get_ticket(dparsed,ATR,pair)
    count=0
-   
-   #step 2: check that If its been atleast a day since i entered
-   now=time.localtime().tm_mday
-   _t=mt5.positions_get(symbol=pair)
-   _t1=re.search("time=(\d+)",str(_t))
-   _t2=_t1.group(1)
-   _t3=time.ctime(int(_t2))
-   try:entered=int(_t3.split(" ")[2])
-   except ValueError:entered=int(_t3.split(" ")[3])
-   if now-entered<1:
-      limits(dparsed,ATR,ticket,pair,position)
-      
-                 
+                     
    #step 3:check if price has gone beyond your takeprofit level, then take profit if true
    _=mt5.positions_get(symbol=pair)
    _=re.search("price_open=(\d+\.\d+)",str(_))
@@ -86,29 +90,8 @@ def trade_manager(pair,ATR,position):
    takeprofit=price_in+(ATR*1)
    if dparsed>takeprofit:
       exit=mt5.Close(pair,ticket=ticket)
-      
-      
-   #step 4: check that its 6:55 pm,if true enter loop
-   t=time.localtime()
-   print(t)   
-   if t.tm_hour==18 and t.tm_min==55:
-      trade_exit(ticket,pair)
-                 
-   #when its not 6:55 pm - 7:00 pm modify limits as necesary.   
    else:
-      while len(mt5.positions_get(symbol=pair))!=0:
-      
-         #gets current price
-         pairinfo=str(mt5.symbol_info(pair))
-         price=re.search("bid=((\d)+\.(\d)+),",pairinfo)
-         dparsed=float(price.group(1))
-         
-         #moves sl and tp as prices moves
-         if dparsed>price_list[count]:
-              limits(dparsed,ATR,ticket,pair,position)
-              price_list.append(dparsed)
-              count=count+1
-   closesocket()
+      limits(dparsed,ATR,ticket,pair,position)
    
 #checks if trade can be exitted and exits        
 def trade_exit(ticket,pair):
@@ -128,22 +111,41 @@ def limits(dparsed,ATR,ticket,pair,position):
       stoploss=dparsed-(ATR*1.5)
    elif position=="false":
       stoploss=dparsed+(ATR*1.5)
-   sl_request={"action":mt5.TRADE_ACTION_SLTP,"symbol":pair,"sl":stoploss,"tp":0.000,
+   if positions_get(ticket=ticket):
+      sl_request={"action":mt5.TRADE_ACTION_SLTP,"symbol":pair,"sl":stoploss,"tp":0.000,
       "position":ticket}
-      
-   sl=mt5.order_send(sl_request)
-   print(sl)
-   
-   
-   
+      sl=mt5.order_send(sl_request)
+      print(sl)
+  
+      if position=="true":
+         lastPrice=dparsed
+         while True:
+            priceNow=mt5.symbol_info(pair).bid
+            if priceNow>lastPrice:
+               stoploss=priceNow-(ATR*1.5)
+               sl_request={"action":mt5.TRADE_ACTION_SLTP,"symbol":pair,"sl":stoploss,"tp":0.000,
+         "position":ticket}
+               sl=mt5.order_send(sl_request)
+               lastPrice=priceNow
+               print(sl)
+      elif position=="false":
+         lastPrice=dparsed
+         while True:
+            priceNow=mt5.symbol_info(pair).bid
+            if priceNow<lastPrice:
+               stoploss=priceNow+(ATR*1.5)
+               sl_request={"action":mt5.TRADE_ACTION_SLTP,"symbol":pair,"sl":stoploss,"tp":0.000,
+         "position":ticket}
+               sl=mt5.order_send(sl_request)
+               lastPrice=priceNow
+               print(sl)
+               print(priceNow)
 
-   
+      
 #closes the socket connection
 def closesocket():
    global sock
    sock.close()
    return("socket is closed")
 
-   
-   
 main()
