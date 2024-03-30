@@ -1,24 +1,12 @@
-void OnInit()
+void OnInit() //initialization function which starts as soon as script is compiled
 {
-EventSetTimer(10);
-if (trade_decider()==false || trade_decider()==true)
+string trade=trade_decider();
+Print("hi");
+if (trade==false || trade==true)
 {
-if (enter_trade()==true)
-{conn_to_sock();}
+if (enter_trade(trade)==true)
+{conn_to_sock(trade);}
 }
-//reason();
-OnDeinit();
-}
-void reason()
-{
-//char indicators[4];
-//indicators[0:3]=1;
-}
-
-
-
-void OnDeinit()
-{
 }
 
 string trade_decider()  //decides if i can enter trade
@@ -27,26 +15,36 @@ string trade_decider()  //decides if i can enter trade
 if(nv()=="true" && qqe()=="long" && basel()=="long")
 {
 Print(basel(),"\n",qqe(),"\n",nv());
-MessageBox("basic entry:long");
+int msgCode=MessageBox("basic entry:long");
+if(msgCode==1){
 return true;}
+}
 else if(nv()=="true" && qqe()=="c-long" && basel()=="long")
 {
 Print(basel(),"\n",qqe(),"\n",nv());
-MessageBox("continuation:long");
-return true;}
+int msgCode=MessageBox("continuation:long");
+if (msgCode==1) {
+{return true;}
+}
 else if(nv()=="true" & qqe()=="short" & basel()=="short")
 {Print(basel(),"\n",qqe(),"\n",nv());
-MessageBox("basic entry:short");
+int msgCode=MessageBox("basic entry:short");
+if (msgCode==1) {
 return false;}
+}
 else if(nv()=="true" & qqe()=="c-short" & basel()=="short")
 {
 Print(basel(),"\n",qqe(),"\n","\n",nv());
-MessageBox("continuation:short");
+int msgCode=MessageBox("continuation:short");
+if (msgCode==1) {
 return false;}
+}
 else{
 Print(basel(),"\n",qqe(),"\n",nv());
 Print("no new signal");
-return "none";}
+return NULL;}
+}
+return NULL;
 }
 //baseline function checks if baseline is long or short
 string basel()
@@ -88,7 +86,7 @@ int x;
 int qqe_handle=iCustom(Symbol(),PERIOD_CURRENT,"Downloads\qqe");
 for(x=0;x<=1;x=x+1)
 {
-int   qqe=CopyBuffer(qqe_handle,x,0,2,qqe_array);
+int   qqe=CopyBuffer(qqe_handle,x,1,2,qqe_array);
 int   m=GetLastError(); 
 today[x]=qqe_array[1];
 yesterday[x]=qqe_array[0];
@@ -115,8 +113,8 @@ return "none";
 
 }
   
-//nv function,checks if indicator is long or short
-string nv()
+
+string nv() //baseline function,checks if indicator is long or short
 {
 //defining variables
 double nv_array[];
@@ -137,42 +135,21 @@ else{return "false";}
 }
 
 
-bool enter_trade()  //enters the trade
+bool enter_trade(string trade)  //enters the trade
 {
-volume_calc();
+volume_calc(trade);
 return true;
 }
-bool OnTimer()
-{
 
-bool start=true;
-//checks whether the time is right and if any trades are placed in order to enter a trade
-
-if(timestart()==true || timestart()==false)
-{bool end=timeend();
-//iterates until time is up
-while(timeend()==false)
-{
-if (PositionSelect(Symbol())==false)
-{
-volume_calc();
-return true;
-}
-else{return false;}
-}
-return false;
-}
-else{Print("not the time");
-return false;}
-}
-
-void volume_calc()
+void volume_calc(string trade) //calculates volume
 {
 double volume;
 double ATR_array[];
 int ATR_handle=iATR(Symbol(),PERIOD_CURRENT,14);
 int _=CopyBuffer(ATR_handle,0,0,1,ATR_array);
 double stoploss=ATR_array[0]*10000*1.5;
+double takeprofit=ATR_array[0];
+Print("takeprofit:",takeprofit);
 double   balance=AccountInfoDouble(ACCOUNT_BALANCE);
 string   _1="USD";
 string   _2=StringSubstr(Symbol(),3,-1);
@@ -187,7 +164,7 @@ if(_6=="USD")
 double volume=NormalizeDouble(risk/stoploss/2/10,2);
 double rate=SymbolInfoDouble(Symbol(),SYMBOL_BID);
 Print(volume);
-enter(volume);
+enter(trade,volume,takeprofit);
 }
 //if quote pair is not USD
 else
@@ -196,29 +173,31 @@ if(SymbolSelect(_1,true)==true)
 {double rate=SymbolInfoDouble(_1,SYMBOL_BID);
 double volume=NormalizeDouble(((risk*rate)/stoploss/2/10),2);
 Print(volume);
-enter(volume);
+enter(trade,volume,takeprofit);
 }
 else if (SymbolSelect(_2,true)==true)
 {double  rate=SymbolInfoDouble(_2,SYMBOL_BID);
 double  volume=NormalizeDouble(((risk/rate)/stoploss/2/10),2);
 Print(volume);
-enter(volume);
+enter(trade,volume,takeprofit);
 }
 }
 Print(volume);
 return;
 }
-//function to enter a trade
-bool enter(double volume)
+
+//function to send trade request to mmt5 terminal
+bool enter(string trade,double volume, double takeprofit)
 {
 MqlTradeRequest request={};
 MqlTradeResult result={};
 request.action=TRADE_ACTION_DEAL;
 request.symbol=Symbol();
 request.volume=volume;
-if(trade_decider()==true)
+
+if(trade==true)
 {request.type=ORDER_TYPE_BUY;}
-else if(trade_decider()==false)
+else if(trade==false)
 {request.type=ORDER_TYPE_SELL;}
 bool  o=OrderSend(request,result);
 bool m=OrderSend(request,result);
@@ -230,39 +209,12 @@ return true;
 }
 
 
-//function which checks the time in order to enter or exit a trade
-bool timestart()
-{
-MqlDateTime time;
-bool _=TimeToStruct(TimeLocal(),time);
-MqlDateTime start;
-start.hour=23;
-start.min=59;
-if(start.hour==time.hour && start.min==time.min)
-{return true;}
-else{return false;}
-}
-
-bool timeend()
-{
-MqlDateTime time;
-bool _=TimeToStruct(TimeLocal(),time);
-MqlDateTime end;
-end.hour=0;
-end.min=0;
-if(end.hour==time.hour && end.min==time.min)
-{return true;}
-else{return false;}
-
-}
-
-
-void conn_to_sock()   //connects to server socket to send informationfrom mt5 terminal
-{clientsock();}
+void conn_to_sock(string trade)   //connects to server socket to send information from mt5 terminal
+{clientsock(trade);}
 
 
 
-int clientsock()
+int clientsock(string trade)
   {
 int mq5sock;
 const string address="";
@@ -271,44 +223,36 @@ uint  timeo=20000;
 uchar  mq5buffer[]={};
 uchar symbolname[]; 
 uchar position[]; 
+
   
  
 int ATRhandle=iCustom(_Symbol,PERIOD_CURRENT,
 "Examples\ATR");
-double ATR=Indivalue(ATRhandle);
+double ATR=ATRValue(ATRhandle);
 uint  bufflength=StringToCharArray(ATR,mq5buffer,0,WHOLE_ARRAY);
 uint  sym_len=StringToCharArray(Symbol(),symbolname,0,WHOLE_ARRAY);
-uint pos_len=StringToCharArray(trade_decider(),position,0,WHOLE_ARRAY);
+uint pos_len=StringToCharArray(trade,position,0,WHOLE_ARRAY);
 mq5sock = SocketCreate(SOCKET_DEFAULT);
 bool  con = SocketConnect(mq5sock,address,port,timeo);
 bool  sockcon=  SocketIsConnected(mq5sock);
 Print(sockcon);
 
-int   socksend=SocketSend(mq5sock,mq5buffer,bufflength);
-
+int socksend=SocketSend(mq5sock,mq5buffer,bufflength);
 int socksend2=SocketSend(mq5sock,symbolname,sym_len);
-
 int socksend3=SocketSend(mq5sock,position,pos_len);
 
 
- return INIT_SUCCEEDED;
- }
-\
-//+------------------------------------------------------------------+
-//| Expert deinitialization function                                 |
-//+------------------------------------------------------------------+
-void OnDeinit(int mq5sock)
-  {
-bool close=SocketClose(mq5sock);
-  }
+return INIT_SUCCEEDED;
+}
 
-double Indivalue(int ATRhandle)
-  {
-//---
-double ATRarray[];
-double value=CopyBuffer(ATRhandle,0,0,1,ATRarray);
-return ATRarray[0];
-  }
+void OnDeinit(int mq5sock)
+{bool close=SocketClose(mq5sock);}
+
+double ATRValue(int ATRhandle) {
+double atrArray[];
+int atrBuffer=CopyBuffer(ATRhandle,0,0,1,atrArray);
+return atrArray[0];
+}
 
 
 
