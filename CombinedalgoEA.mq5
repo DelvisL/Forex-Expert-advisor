@@ -1,7 +1,7 @@
 void OnInit() //initialization function which starts as soon as script is compiled
 {
 string trade=trade_decider();
-Print("hi");
+
 if (trade==false || trade==true)
 {
 if (enter_trade(trade)==true)
@@ -24,7 +24,7 @@ else if(nv()=="true" && qqe()=="c-long" && basel()=="long")
 Print(basel(),"\n",qqe(),"\n",nv());
 int msgCode=MessageBox("continuation:long");
 if (msgCode==1) {
-{return true;}
+return true;}
 }
 else if(nv()=="true" & qqe()=="short" & basel()=="short")
 {Print(basel(),"\n",qqe(),"\n",nv());
@@ -39,12 +39,10 @@ int msgCode=MessageBox("continuation:short");
 if (msgCode==1) {
 return false;}
 }
-else{
-Print(basel(),"\n",qqe(),"\n",nv());
+
 Print("no new signal");
-return NULL;}
-}
 return NULL;
+
 }
 //baseline function checks if baseline is long or short
 string basel()
@@ -217,7 +215,7 @@ void conn_to_sock(string trade)   //connects to server socket to send informatio
 int clientsock(string trade)
   {
 int mq5sock;
-const string address="";
+const string address="ipV4 address";
 uint port=2023;
 uint  timeo=20000;
 uchar  mq5buffer[]={};
