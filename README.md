@@ -49,4 +49,10 @@
 <li>login and password for MetaTrader 5 account</li>
 </h4>
 
+<h5>
+Adding as a Windows service:
+<p>
+  The python script can be run as a Windows service, meaning run as a continous background service. In order to do so you must run the the following command "python <i>servicename</i> --startup auto install". The default service name is SL_TP_EA however if you do change that make sure to update it. You can then start the service using "python <i>servicename</i> start". Use the pywin32 API specifically win32serviceutil module in order to more infomation on manipulating service using command line interface. The service is not offered as a linux background process however this will come in the future. 
+</p>
+</h5>
 
