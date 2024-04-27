@@ -55,11 +55,11 @@ if __name__=='__main__':
 #starts the process of calling necessary functions
 def main2():
   global login
-  login=22334134
+  login=
   global password
-  password="5(jt0MqVowo!"
+  password=""
   global server
-  server="Forex.com-Demo 535"
+  server=""
   checkservice()
   #reconnectThread=threading.Thread(target=checkservice,args=())
   #reconnectThread.start()
