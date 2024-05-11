@@ -151,6 +151,8 @@ def openTrades():
             tradeThread=threading.Thread(target=limits,
                                          args=(dparsed,ATR,tickets,pair,position))
             tradeThread.start()
+        except ValueError:
+            pass
         except:
             servicemanager.LogInfoMsg(traceback.format_exc())
         
